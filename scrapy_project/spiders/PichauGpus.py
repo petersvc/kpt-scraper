@@ -65,6 +65,16 @@ class PichauGpuSpider(scrapy.Spider):
                 if link.find(x) != -1:
                     brand=x
 
+            if not brand.isupper():
+                #print(matches_brand[8])
+                if not brand[0].isupper():
+                    a = list(brand)
+                    a[0] = a[0].capitalize()
+                    brand = ''.join(a)
+                    #print(matches_brand[8])
+            else:
+                brand = brand.capitalize()
+
             models_nvidia = [
                 '1050', '1650', '1660', '2060', '2070', '2080', '3050', '3060', '3070',
                 '3080', '3090'
@@ -81,10 +91,10 @@ class PichauGpuSpider(scrapy.Spider):
             for x in models_nvidia:
                 if name.find(x) != -1:
                     model= x
-                    manufactor = 'nvidia'
+                    manufactor = 'Nvidia'
             
             if model == 'outra':
-                manufactor = 'amd'
+                manufactor = 'Amd'
                 for x in models_amd:
                     if name.find(x) != -1:
                         model= x                        
@@ -94,12 +104,12 @@ class PichauGpuSpider(scrapy.Spider):
 
             serie = 'outra'
 
-            if manufactor == 'nvidia':
+            if manufactor == 'Nvidia':
                 for x in series_nvidia:
                     if model.find(x) != -1:
                         serie= x
             
-            if manufactor == 'amd':
+            if manufactor == 'Amd':
                 if model != 'outra':
                     temp_model = int(model)
                     for x in series_amd:                        
